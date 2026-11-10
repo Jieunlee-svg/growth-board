@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>2026 월별피드백 흐름</title>
+<title>2026 월별피드백</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;600&family=Noto+Sans+KR:wght@400;500&display=swap">
 <style>
@@ -12,7 +12,7 @@
   --bg:#f6f7f9; --surface:#ffffff; --ink:#15191f; --ink-2:#4b5361; --ink-3:#8a919c; --line:#e3e6eb;
   --accent:#1f4f8a; --accent-soft:#e6eef8;
   --gA:#1f4f8a; --gA-t:#eef4fb; --gBp:#8fb4e0; --gBp-t:#0d2a4d; --gB:#e6eef8; --gB-t:#1f4f8a;
-  --open:#d0623a; --open-soft:#fbece5; --open-ink:#8a3517;
+  --open:#d0623a; --open-soft:#fbece5; --open-ink:#8a3517; --good-bg:#eef7f3; --good-line:#cfe8dd; --imp-bg:#fdf3ee; --imp-line:#f3d9cc;
   --done:#1d8a68; --track:#c3c8d0; --mark:#ffe9a8; --err:#b42318;
   --f-head:"IBM Plex Sans KR","Noto Sans KR",system-ui,sans-serif;
   --f-body:"Noto Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;
@@ -22,13 +22,13 @@
   --bg:#111418; --surface:#191d23; --ink:#eceef1; --ink-2:#b6bcc6; --ink-3:#7d8591; --line:#2a3039;
   --accent:#7fb0ea; --accent-soft:#1c2a3b;
   --gA:#4f8ad3; --gA-t:#081a30; --gBp:#2c4f78; --gBp-t:#dbe8f7; --gB:#1c2a3b; --gB-t:#9cc1ec;
-  --open:#e5845f; --open-soft:#3a2219; --open-ink:#f3b59b;
+  --open:#e5845f; --open-soft:#3a2219; --open-ink:#f3b59b; --good-bg:#15261f; --good-line:#21423a; --imp-bg:#2b1c16; --imp-line:#4a2e23;
   --done:#3cbf93; --track:#4a515c; --mark:#5a4a12; --err:#f29a8f; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#111418; --surface:#191d23; --ink:#eceef1; --ink-2:#b6bcc6; --ink-3:#7d8591; --line:#2a3039;
   --accent:#7fb0ea; --accent-soft:#1c2a3b;
   --gA:#4f8ad3; --gA-t:#081a30; --gBp:#2c4f78; --gBp-t:#dbe8f7; --gB:#1c2a3b; --gB-t:#9cc1ec;
-  --open:#e5845f; --open-soft:#3a2219; --open-ink:#f3b59b;
+  --open:#e5845f; --open-soft:#3a2219; --open-ink:#f3b59b; --good-bg:#15261f; --good-line:#21423a; --imp-bg:#2b1c16; --imp-line:#4a2e23;
   --done:#3cbf93; --track:#4a515c; --mark:#5a4a12; --err:#f29a8f; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -69,24 +69,42 @@ section{display:flex;flex-direction:column;gap:16px;min-width:0}
 .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
 .dot{width:12px;height:12px;border-radius:50%;background:var(--open);box-shadow:0 0 0 2px var(--surface);position:relative;display:inline-block}
 .chk{width:18px;height:18px;border-radius:50%;background:var(--done);color:var(--surface);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;position:relative;box-shadow:0 0 0 2px var(--surface)}
-.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:5}
+.tools{display:flex;flex-direction:column;gap:8px;align-items:flex-start;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:5}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
-.seg button{border:0;border-radius:0;color:var(--ink-2)}
-.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
-#q{font:inherit;font-size:14px;flex:1;min-width:160px;max-width:320px;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.seg{display:flex;gap:4px 14px;flex-wrap:wrap;padding-left:2px}
+.seg button{border:0;background:transparent;padding:2px 0;font-size:13px;color:var(--ink-3);display:inline-flex;align-items:center;gap:6px;border-radius:4px}
+.seg button::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ink-3);opacity:.5}
+.seg button[data-v="good"]::before{background:var(--done)}
+.seg button[data-v="imp"]::before{background:var(--open)}
+.seg button[aria-pressed="true"]{color:var(--ink);font-weight:500}
+.seg button[aria-pressed="true"]::before{opacity:1}
+.seg button:hover{color:var(--ink-2)}
+#q{font:inherit;font-size:14px;width:100%;max-width:320px;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
 .jump{display:flex;flex-wrap:wrap;gap:6px}
-.jump a{font-size:12px;color:var(--accent);text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px}
-.month{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:flex;flex-direction:column;gap:16px;scroll-margin-top:70px}
+.jump a{font-size:12px;color:var(--accent);text-decoration:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 10px;transition:background .15s,color .15s}
+.jump a:hover{border-color:var(--accent)}
+.jump a[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface);font-weight:500}
+.month{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;display:flex;flex-direction:column;gap:16px;scroll-margin-top:110px}
 .mhead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font-size:12px;border-radius:6px;padding:2px 8px;font-variant-numeric:tabular-nums;background:var(--accent-soft);color:var(--accent)}
 .chip.warn{background:var(--open-soft);color:var(--open-ink)}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.col{min-width:0;display:flex;flex-direction:column;gap:8px}
-.col h4{margin:0;font-family:var(--f-head);font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
-.col h4::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--done)}
-.col.imp h4::before{background:var(--open)}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"sh mh" "sg mg" "si mi";gap:12px 20px}
+.pair > *{min-width:0}
+.ph{margin:0;font-family:var(--f-head);font-size:15px;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.ph.self{color:var(--accent)}
+@media (max-width:640px){.pair{grid-template-columns:minmax(0,1fr);grid-template-areas:"sh" "sg" "si" "mh" "mg" "mi"}.ph:not(.self){margin-top:12px}}
+.kind{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink-2);margin:0}
+.fbox{border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;background:var(--good-bg);border:1px solid var(--good-line)}
+.fbox.imp{background:var(--imp-bg);border-color:var(--imp-line)}
+.kind::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--done)}
+.kind.imp::before{background:var(--open)}
+.subh{font-size:12px;color:var(--ink-3);margin-top:4px}
+.none{font-size:13px;color:var(--ink-3);margin:0}
+.tabbar{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:-24px}
+.tabbar a{font-family:var(--f-head);font-size:15px;font-weight:500;color:var(--ink-2);text-decoration:none;padding:10px 16px;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabbar a[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
 .txt{white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;font-size:14px;margin:0;max-width:68ch}
 mark{background:var(--mark);color:inherit;border-radius:2px}
 .empty{color:var(--ink-3);font-size:14px;padding:24px;text-align:center;border:1px dashed var(--line);border-radius:12px}
@@ -98,9 +116,8 @@ mark{background:var(--mark);color:inherit;border-radius:2px}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">웰체크팀 2파트 · 월별피드백</div>
-      <h1>2026 월별피드백 흐름</h1>
-      <p class="sub">팀장 등급과 개선할 점이 달마다 어떻게 바뀌었는지, 받은 코멘트 원문 전체를 한곳에 모았습니다.</p>
+      <h1>2026 월별피드백</h1>
+      <p class="sub">Compare yourself to who you were yesterday.</p>
     </div>
     <div class="conn"><span class="cdot" id="cdot"></span><span id="clabel">연결 안 됨</span>
       <button type="button" id="btnReload" aria-label="새로고침" hidden>↻</button>
@@ -122,6 +139,11 @@ mark{background:var(--mark);color:inherit;border-radius:2px}
   </section>
 
   <div id="content" class="stack" hidden>
+    <nav class="tabbar" role="tablist" aria-label="보기">
+      <a href="#summary" role="tab" id="t-summary" aria-selected="true">요약</a>
+      <a href="#original" role="tab" id="t-original" aria-selected="false">원문</a>
+    </nav>
+    <div id="p-summary" class="stack" role="tabpanel" aria-labelledby="t-summary">
     <section aria-labelledby="s1">
       <h2 id="s1">요약</h2>
       <div class="tiles" id="tiles"></div>
@@ -129,7 +151,6 @@ mark{background:var(--mark);color:inherit;border-radius:2px}
 
     <section aria-labelledby="s2">
       <h2 id="s2">팀장 등급</h2>
-      <p class="muted" style="margin:0" id="gradeNote"></p>
       <div class="scroll"><div id="grades"></div></div>
       <div class="legend">
         <span><i class="sw" style="background:var(--gA)"></i>A</span>
@@ -141,7 +162,6 @@ mark{background:var(--mark);color:inherit;border-radius:2px}
 
     <section aria-labelledby="s3">
       <h2 id="s3">개선할 점 이력</h2>
-      <p class="muted" style="margin:0">평가 월 기준. '25'는 2025년 직무급 면접입니다.</p>
       <div class="scroll"><div id="issues"></div></div>
       <div class="legend">
         <span><i class="dot"></i>개선할 점 받음 (최초·재발)</span>
@@ -150,19 +170,22 @@ mark{background:var(--mark);color:inherit;border-radius:2px}
       </div>
     </section>
 
+    </div>
+    <div id="p-original" class="stack" role="tabpanel" aria-labelledby="t-original" hidden>
     <section aria-labelledby="s4">
-      <h2 id="s4">월별 팀장 코멘트 원문</h2>
+      <h2 id="s4">월별 피드백 원문</h2>
+      <input id="q" type="search" placeholder="키워드 찾기 (예: 육성, QR, 약국)" aria-label="코멘트 검색">
       <div class="tools">
+        <nav class="jump" id="jump" aria-label="월 바로가기"></nav>
         <div class="seg" role="group" aria-label="보기 선택">
           <button type="button" data-v="all" aria-pressed="true">전체</button>
           <button type="button" data-v="good" aria-pressed="false">잘한 점</button>
           <button type="button" data-v="imp" aria-pressed="false">개선할 점</button>
         </div>
-        <input id="q" type="search" placeholder="키워드 찾기 (예: 육성, QR, 약국)" aria-label="코멘트 검색">
       </div>
-      <nav class="jump" id="jump" aria-label="월 바로가기"></nav>
       <div id="months" style="display:flex;flex-direction:column;gap:16px"></div>
     </section>
+    </div>
   </div>
 
   <div id="status" class="empty" hidden></div>
@@ -200,6 +223,23 @@ function parseMonth(text){
   const clean = arr => arr.join('\n').replace(/^\s*\d\.\s*(잘한 점|개선할 점)\s*\n/, '').replace(/[ \t]+$/gm,'').replace(/\n{3,}/g,'\n\n').trim();
   return { good: clean(out.good), imp: clean(out.imp), meta: out.meta };
 }
+function parseSelf(text){
+  const lines = text.replace(/\r\n?/g,'\n').replace(/<!--[\s\S]*?-->/g,'').split('\n');
+  const res = { good:[], imp:[] };
+  let part = null, cur = null;
+  for (const l of lines){
+    if (/^##\s*팀장 피드백|^---\s*$/.test(l)) break;
+    if (/^##\s*1\.\s*잘한 점/.test(l)) { part = 'good'; cur = null; continue; }
+    if (/^##\s*2\.\s*개선할 점/.test(l)) { part = 'imp'; cur = null; continue; }
+    if (/^##\s/.test(l)) { part = null; continue; }
+    const h = l.match(/^###\s*(?:\d-\d\.\s*)?(.+)$/);
+    if (h && part) { cur = { h: h[1].trim(), lines: [] }; res[part].push(cur); continue; }
+    if (cur) cur.lines.push(l);
+  }
+  const fin = arr => arr.map(s => ({ h: s.h, t: s.lines.join('\n').replace(/[ \t]+$/gm,'').replace(/\n{3,}/g,'\n\n').trim() }))
+    .filter(s => s.t && !/^-?\s*\(기록 없음\)$/.test(s.t));
+  return { good: fin(res.good), imp: fin(res.imp) };
+}
 /*END*/
 
 function GitHub(repo, branch, token){
@@ -220,8 +260,7 @@ function GitHub(repo, branch, token){
   };
 }
 
-let FB = [], DATA = null, view = 'all', q = '';
-try { view = store.get('fb-view') || 'all'; } catch(e){}
+let FB = [], DATA = null, q = '', view = store.get('fb-view') || 'all';
 
 async function load(){
   const token = store.get('mf.token');
@@ -237,7 +276,8 @@ async function load(){
       ...monthPaths.map(p => gh.read(p))
     ]);
     DATA = JSON.parse(dataText);
-    FB = monthPaths.map((p, i) => ({ key: p.slice(-10, -3), ...parseMonth(texts[i]) })).filter(f => f.good || f.imp);
+    FB = monthPaths.map((p, i) => ({ key: p.slice(-10, -3), ...parseMonth(texts[i]), self: parseSelf(texts[i]) }))
+      .filter(f => f.good || f.imp || f.self.good.length || f.self.imp.length);
     $('#cdot').classList.add('on'); $('#clabel').textContent = repo;
     $('#btnReload').hidden = false; $('#btnSetup').hidden = false;
     $('#setup').hidden = true; $('#sErr').textContent = ''; $('#status').hidden = true; $('#content').hidden = false;
@@ -268,7 +308,7 @@ function renderAll(){
   const longest = ISS.slice().sort((a,b) => b.hits.length - a.hits.length)[0];
   $('#tiles').innerHTML =
     tile('해소된 개선할 점', done.length + '건', done.map(i => i.label).slice(0,4).join(' · ')) +
-    tile('미해결 개선할 점', open.length + '건', '') +
+    tile('미해결 개선할 점', open.length + '건', open.map(i => i.label).join(' · ')) +
     (longest ? tile('가장 오래 끈 개선할 점', longest.hits.length + '회' + (longest.open ? ' · 진행 중' : ' → 해소'), longest.label) : '');
 
   const rows = [['종합 (팀장)', k => G[k]?.overall?.mgr], ['종합 (자기평가)', k => G[k]?.overall?.self],
@@ -276,7 +316,6 @@ function renderAll(){
   let h = '<div class="grid" style="grid-template-columns:140px repeat(' + months.length + ',minmax(0,1fr))"><div></div>' + months.map(m => '<div class="hd">' + mLabel(m) + '</div>').join('');
   rows.forEach(([n, f]) => { h += '<div class="lb">' + n + '</div>'; months.forEach(m => { const x = f(m); if (!x || !GC[x]) h += '<div class="c" style="color:var(--ink-3)">' + (x ? esc(x) : '—') + '</div>'; else h += '<div class="c" style="background:' + GC[x][0] + ';color:' + GC[x][1] + ';font-weight:500">' + x + '</div>'; }); });
   $('#grades').innerHTML = h + '</div>';
-  $('#gradeNote').textContent = '등급이 기록되지 않은 달은 — 로 표시합니다.';
 
   const cols = ['2025', ...months];
   let s = '<div class="grid" style="grid-template-columns:180px repeat(' + cols.length + ',minmax(0,1fr));row-gap:2px;column-gap:0"><div></div>' + cols.map(m => '<div class="hd">' + mLabel(m) + '</div>').join('');
@@ -318,12 +357,21 @@ function hl(t){
 function renderMonths(){
   document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === view ? 'true' : 'false'));
   const ql = q.toLowerCase();
-  const out = FB.filter(f => !ql || ((view !== 'imp' ? f.good : '') + (view !== 'good' ? f.imp : '')).toLowerCase().includes(ql)).map(f => {
-    const g = view !== 'imp' && f.good ? '<div class="col"><h4>잘한 점</h4><p class="txt">' + hl(f.good) + '</p></div>' : '';
-    const i = view !== 'good' && f.imp ? '<div class="col imp"><h4>개선할 점</h4><p class="txt">' + hl(f.imp) + '</p></div>' : '';
-    return '<article class="month" id="m' + f.key.replace('-','') + '"><div class="mhead"><h3>' + f.key.slice(0,4) + '년 ' + mLabel(f.key) + '</h3><span class="muted">' + esc(f.meta) + '</span></div><div class="chips">' + chipsFor(f.key) + '</div><div class="cols">' + g + i + '</div></article>';
+  const selfText = arr => arr.map(s => s.h + '\n' + s.t).join('\n');
+  const pool = f => ((view !== 'imp' ? f.good + selfText(f.self.good) : '') + (view !== 'good' ? f.imp + selfText(f.self.imp) : '')).toLowerCase();
+  const selfBlock = (arr) => arr.length ? arr.map(s => '<div class="subh">' + hl(s.h) + '</div><p class="txt">' + hl(s.t) + '</p>').join('') : '<p class="none">기록 없음</p>';
+  const mgrBlock = (t) => t ? '<p class="txt">' + hl(t) + '</p>' : '<p class="none">아직 받지 않음</p>';
+  const out = FB.filter(f => !ql || pool(f).includes(ql)).map(f => {
+    const box = (area, cls, label, body) => '<div class="fbox' + cls + '" style="grid-area:' + area + '"><div class="kind' + cls + '">' + label + '</div>' + body + '</div>';
+    const pair = '<div class="pair">'
+      + '<h4 class="ph self" style="grid-area:sh">본인 피드백</h4><h4 class="ph" style="grid-area:mh">상사 피드백</h4>'
+      + (view !== 'imp' ? box('sg', '', '잘한 점', selfBlock(f.self.good)) + box('mg', '', '잘한 점', mgrBlock(f.good)) : '')
+      + (view !== 'good' ? box(view === 'imp' ? 'sg' : 'si', ' imp', '개선할 점', selfBlock(f.self.imp)) + box(view === 'imp' ? 'mg' : 'mi', ' imp', '개선할 점', mgrBlock(f.imp)) : '')
+      + '</div>';
+    return '<article class="month" id="m' + f.key.replace('-','') + '"><div class="mhead"><h3>' + f.key.slice(0,4) + '년 ' + mLabel(f.key) + '</h3><span class="muted">' + esc(f.meta ? '상사 피드백: ' + f.meta : '') + '</span></div><div class="chips">' + chipsFor(f.key) + '</div>' + pair + '</article>';
   });
   $('#months').innerHTML = out.length ? out.join('') : '<div class="empty">"' + esc(q) + '"가 들어간 코멘트가 없습니다. 다른 키워드로 찾아보세요.</div>';
+  spy();
 }
 
 $('#sGo').onclick = async () => {
@@ -340,8 +388,35 @@ $('#sForget').onclick = () => { store.del('mf.token'); $('#sToken').value = ''; 
 $('#sClose').onclick = () => { $('#setup').hidden = true; };
 $('#btnSetup').onclick = () => showSetup(true);
 $('#btnReload').onclick = load;
-document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { view = b.dataset.v; store.set('fb-view', view); renderMonths(); }));
 $('#q').addEventListener('input', e => { q = e.target.value.trim(); renderMonths(); });
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { view = b.dataset.v; store.set('fb-view', view); renderMonths(); }));
+let lockSpy = 0;
+function setActive(id){ document.querySelectorAll('.jump a').forEach(x => x.setAttribute('aria-current', x.getAttribute('href') === '#' + id ? 'true' : 'false')); }
+function spy(){
+  if (Date.now() < lockSpy || $('#p-original').hidden) return;
+  const arts = [...document.querySelectorAll('#months .month')]; if (!arts.length) return;
+  const line = $('.tools').getBoundingClientRect().bottom + 24;
+  let cur = arts[0];
+  for (const a of arts) { if (a.getBoundingClientRect().top <= line) cur = a; else break; }
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = arts[arts.length - 1];
+  setActive(cur.id);
+}
+let spyQueued = false;
+['wheel','touchstart','keydown'].forEach(ev => window.addEventListener(ev, () => { lockSpy = 0; }, { passive: true }));
+window.addEventListener('scroll', () => { if (spyQueued) return; spyQueued = true; requestAnimationFrame(() => { spyQueued = false; spy(); }); }, { passive: true });
+function route(){
+  const tab = location.hash === '#original' ? 'original' : 'summary';
+  ['summary','original'].forEach(t => { $('#p-' + t).hidden = t !== tab; $('#t-' + t).setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+  spy();
+}
+window.addEventListener('hashchange', route);
+document.addEventListener('click', e => {
+  const a = e.target.closest('.jump a'); if (!a) return;
+  e.preventDefault(); const id = a.getAttribute('href').slice(1); const el = document.getElementById(id);
+  setActive(id); lockSpy = Infinity;
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+route();
 load();
 })();
 </script>
